@@ -1,3 +1,8 @@
+/*
+array에 값을 집어넣을 때, 반드시 순서대로 넣어야 하는가?
+*/
+
+
 #include <stdio.h>
 
 int main(){
