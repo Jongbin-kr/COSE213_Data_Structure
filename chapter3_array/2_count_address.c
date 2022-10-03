@@ -1,26 +1,29 @@
 #include <stdio.h>
 
 int main(){
-    int n, result;
-    int* BA;
+
+    int n, p_result, int_result;
+    int* p_BA; //주소값을 정수형 **포인터**로 받는 경우
+    int int_BA; //주소값을 그냥 일반 정수형으로 받는 경우
     int marks[] = {99, 67, 78, 54, 88, 90, 34, 85};
 
 
     printf("input the index of address you want: ");
     scanf("%d", &n);
 
-    BA = marks;
-    // result = BA + (sizeof(int) * (n - 0)); // 앞에 sizeof를 붙이면 안되겟는데? 주소값 연산이니까 기본적으로 4단위로 더해지니까.
-    result = BA + (n - 0);
+    p_BA = marks;
+    int_BA = &marks;
+    int_result = int_BA + (sizeof(int) * (n - 0));
+    p_result = p_BA + (n - 0);
 
-    printf("address of marks[%d]: %d\n", n, result);
 
+    printf("p_BA address of marks[%d]: %d\n", n, p_result);
+    printf("int_BA address of marks[%d]: %d\n", n, int_result);
+    
     printf("siZe of int: %d\n", sizeof(int));
-    printf("BA + 1: %d\n", BA + 1);
-
+    printf("p_BA + 1: %d\n", p_BA + 1);
+    printf("int_BA + 1: %d\n", int_BA + 1);
 
     return 0;
 }
 
-// 6422260
-// 6422276
