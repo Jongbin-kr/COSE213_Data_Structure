@@ -9,6 +9,7 @@ typedef struct student_profile{
     char DOB[50];
 }student;
 
+// typedef를 이용할 떄에는 struct의 이름을 지정하지 않아도 되는구나.
 // typedef struct{
 //     int number;
 //     char name[30];
