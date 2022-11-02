@@ -60,6 +60,7 @@ int main(void){
     delete_specific_value(start); // delete node with specific value
     display_list(start);    // display list afteer delete
 
+    system("pause"); // '계속하려면 아무 키나 누르십시오...' 메시지를 띄우기 위함
 
     return 0;
 }

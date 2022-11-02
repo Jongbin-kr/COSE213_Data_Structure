@@ -60,6 +60,7 @@ int main(void){
     display_list(start);    // display list after deleting last node
 
 
+    system("pause"); // '계속하려면 아무 키나 누르십시오...' 메시지를 띄우기 위함
     return 0;
 }
 
