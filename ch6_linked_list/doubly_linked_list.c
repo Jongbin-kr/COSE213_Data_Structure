@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Node{
     int value;
@@ -6,13 +7,15 @@ typedef struct Node{
     struct Node *prev;
 } Node;
 
-void insert_node(int index);
 
+void insert_after_value(Node* start);
+void display_list(Node* start);
+void delete_specific_value(Node* start);
 
 int main(void){
     
     // input values
-    printf("\nLet's start input numbers!\n");
+    printf("\n---Let's start inputting values for doubly linked list!---");
     printf("\nHow much numbers do you want to input?: \n");
     int number_of_nodes;
     scanf("%d", &number_of_nodes);
@@ -25,54 +28,91 @@ int main(void){
         scanf("%d", &node_values[i]);
     }
 
-    for(i=0; i < number_of_nodes; i++){
-        printf("%d", node_values[i]);
-    }
-
-
     // build doubly linked list
-    /**
-     * ?? 이걸 nodes해서 배열로 해도 되나? 그럼 개수가 제한된다는 단점이 있는데
-    */
-    struct Node nodes[400];
+    Node* start = NULL;
+    Node *new_node, *ptr;
     for(i = 0; i < number_of_nodes; i++){
-        nodes[i].value = node_values[i]; // insert values
+        if (start == NULL){
+            new_node = (Node *)malloc(sizeof(Node));
+            new_node->value = node_values[i];
+            new_node->prev = NULL;
+            new_node->next = NULL;
+            start = new_node;
 
-        if(i != 0){                     // set prev pointers
-            nodes[i].prev = &nodes[i-1];
         }else{
-            nodes[i].prev = NULL;
+            ptr = start;
+            new_node = (Node *)malloc(sizeof(Node));
+            new_node->value = node_values[i];
+            while(ptr->next != NULL) ptr = ptr->next;
+            ptr->next = new_node;
+            new_node->prev = ptr;
+            new_node->next = NULL;
+
         }
-
-        if (i != number_of_nodes){      // set next pointers
-            nodes[i].next = &nodes[i+1];
-        }else{
-            nodes[i].next = NULL;
-        }
-        
     }
-
-    for(i=0; i < number_of_nodes; i++){
-        printf("value: %d\n", nodes[i].value);
-        printf("prev: %d\n", nodes[i].prev);
-        printf("pres: %d\n", &nodes[i]);
-        printf("next: %d\n\n", nodes[i].next);
-    }
+    display_list(start);  // display originally built list
 
 
-    Node* start = &(nodes[0]);  //start pointer
-    
+    insert_after_value(start); // insert new node after specific value
+    display_list(start);    // display list after insertion
 
 
-
-
-
-
-
-
-
-
+    delete_specific_value(start); // delete node with specific value
+    display_list(start);    // display list afteer delete
 
 
     return 0;
+}
+
+
+void display_list(Node* start){
+    printf("\n---The current list is as follows.---");
+    Node* ptr;
+    for(ptr = start; ptr != NULL; ptr = ptr->next){
+        printf("\nvalue: %d\n", ptr->value);
+        printf("prev: %d\n", ptr->prev);
+        printf("pres: %d\n", ptr);
+        printf("next: %d\n", ptr->next);
+    }
+}
+
+
+void insert_after_value(Node* start){
+    Node* new_node, *ptr;
+    int index_value, new_value;
+    printf("\n---Let's Start inserting node!---");
+    printf("\nWhat value do you want to input? :\n");
+    scanf("%d", &new_value);
+    printf("\nAfter which value do you want to input new node?: \n");
+    scanf("%d", &index_value);
+
+    // create new node and input value
+    new_node = (Node *)malloc(sizeof(Node));
+    new_node->value = new_value;
+    
+    // search indexed node
+    ptr = start;
+    while (ptr->value != index_value) ptr = ptr->next;
+    
+    // connect new_node with indexed node
+    new_node->prev = ptr;
+    new_node->next = ptr->next;
+    ptr->next->prev = new_node;
+    ptr->next = new_node;
+}
+
+
+void delete_specific_value(Node* start){
+    Node* ptr = start;
+    printf("\n---Let's Start deleting node!---");
+    printf("\nInput the specific value that you want to delete:\n");
+    int value_to_delete;
+    scanf("%d", &value_to_delete);
+
+    while(ptr->value != value_to_delete) ptr = ptr->next; // move ptr until finding specific value that were inputted.
+    ptr->prev->next = ptr->next;
+    ptr->next->prev = ptr->prev;
+
+    free(ptr);
+
 }
